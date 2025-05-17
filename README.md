@@ -1,3 +1,3 @@
 # Dwell Time Analysis
 
-![video](/output_video.mp4)
+![IMG](/image.png)
