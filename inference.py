@@ -40,6 +40,12 @@ def main(
     ]
     timers = [FPSBasedTimer(video_info.fps) for _ in zones]
 
+    output_path = "output_annotated_video.mp4"
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+    writer = cv2.VideoWriter(
+        output_path, fourcc, video_info.fps, (video_info.width, video_info.height)
+    )
+
     for frame in frames_generator:
         results = model(frame, verbose=False, device=device, conf=confidence)[0]
         detections = sv.Detections.from_ultralytics(results)
@@ -75,6 +81,7 @@ def main(
             )
 
         cv2.imshow("Processed Video", annotated_frame)
+        writer.write(annotated_frame)
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
     cv2.destroyAllWindows()
